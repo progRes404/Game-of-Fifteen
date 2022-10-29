@@ -12,6 +12,7 @@ html(lang="en")
             h1 Game of Fifteen 
             .fifteen
                 each val in values 
-                    button.item= val
+                    button.item 
+                        span.itemVal= val
             button.button Reset
         script(src="script.js") 
