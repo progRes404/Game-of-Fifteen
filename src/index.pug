@@ -12,7 +12,7 @@ html(lang="en")
             h1 Game of Fifteen 
             .fifteen
                 each val in values 
-                    button.item 
+                    button.item(data-matrix-id=val)
                         span.itemVal= val
-            button.button Reset
+            button.button Shuffle
         script(src="script.js") 

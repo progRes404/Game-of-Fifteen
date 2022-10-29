@@ -24,7 +24,7 @@ h1 {
     position: relative;
 }   
 
-.fifteen .item {
+.item {
     position: absolute;
     top: 0;
     left: 0;
@@ -37,6 +37,8 @@ h1 {
     color: white;
     font-size: 2rem;
     cursor: pointer;
+    box-shadow: 0 0 0 1px inset rgb(164, 203, 243);
+    transition: transform 0.2s;
 }
 
 .itemVal {
