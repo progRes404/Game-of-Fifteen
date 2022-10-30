@@ -85,17 +85,17 @@ container.addEventListener('click', (e) => {
     const button = e.target.closest('button');
     const buttonNumber = Number(button.dataset.matrixId);
     
-    if (!(button.classList.contains('item'))) {
+    if (!button) {
         return;
     }
 
-    let buttonCoords = findCoordinatesByNumber(buttonNumber),
-        blankItemCoords = findCoordinatesByNumber(blankItem);
+    const buttonCoords = findCoordinatesByNumber(buttonNumber),
+          blankItemCoords = findCoordinatesByNumber(blankItem);
     
     const isValid = isValidForSwap(buttonCoords, blankItemCoords);
    
     if (isValid) {
-        matrix = swap(buttonCoords, blankItemCoords);
+        swap(buttonCoords, blankItemCoords, matrix);
         setPositionItems(matrix);
     }
 });
@@ -116,20 +116,60 @@ function isValidForSwap(buttonCoords, blankItemCoords) {
     const differenceY = Math.abs(buttonCoords.y - blankItemCoords.y),
           differenceX = Math.abs(buttonCoords.x - blankItemCoords.x);
 
-    return (differenceY === 1 && differenceX === 0 || differenceY === 0 && differenceX === 1);
+    return (differenceY === 1 && differenceX === 0 || 
+            differenceY === 0 && differenceX === 1);
 };
 
 
-function swap(coords1, coords2) {
-    const val1 = matrix[coords1.y][coords1.x];
+function swap(coords1, coords2, matrix) {
+    const coords = matrix[coords1.y][coords1.x];
     matrix[coords1.y][coords1.x] = matrix[coords2.y][coords2.x];
-    matrix[coords2.y][coords2.x] = val1;
+    matrix[coords2.y][coords2.x] = coords;
     return matrix;
-}
+};
 
 
-const matr = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]];
-const val1 = matr[1][2];
-matr[1][2] = matr[1][3];
-matr[1][3] = val1;
-console.log(matr);
+// Change position by arrows
+
+
+window.addEventListener('keydown', (e) => {
+    if (!(e.code.includes('Arrow'))) {
+        return;
+    }
+
+    const blankItemCoords = findCoordinatesByNumber(blankItem);
+    
+    const blankItemMoveTo = {
+        y: blankItemCoords.y,
+        x: blankItemCoords.x
+    }
+    
+    const direction = e.code.split('Arrow')[1].toLowerCase();
+    
+    switch(direction) {
+        case 'up': 
+            blankItemMoveTo.y +=1;
+            break;
+        case 'right': 
+            blankItemMoveTo.x -=1;
+            break;  
+        case 'down': 
+            blankItemMoveTo.y -=1;
+            break; 
+        case 'left': 
+            blankItemMoveTo.x +=1;
+            break;
+    }
+
+    if (blankItemMoveTo.y > 3 || blankItemMoveTo.x > 3 || 
+        blankItemMoveTo.y < 0 || blankItemMoveTo.x < 0) {
+        return;
+    }
+
+    swap(blankItemCoords, blankItemMoveTo, matrix);
+    setPositionItems(matrix);
+});
+
+
+
+// Show won
