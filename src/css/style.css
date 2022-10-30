@@ -38,7 +38,7 @@ h1 {
     font-size: 2rem;
     cursor: pointer;
     box-shadow: 0 0 0 1px inset rgb(164, 203, 243);
-    transition: transform 0.2s;
+    transition: transform 0.2s, filter 0.5s;
 }
 
 .itemVal {
@@ -49,6 +49,10 @@ h1 {
     height: 84%;
     margin: 8%;
     box-shadow: 0 0 0 2px inset rgb(26, 119, 213);
+}
+
+.fifteenWon .item {
+    filter: brightness(300%);
 }
 
 .button {

@@ -98,6 +98,10 @@ container.addEventListener('click', (e) => {
         swap(buttonCoords, blankItemCoords, matrix);
         setPositionItems(matrix);
     }
+
+    if (isWon(matrix)) {
+        addWonClass();
+    }
 });
 
 
@@ -173,3 +177,25 @@ window.addEventListener('keydown', (e) => {
 
 
 // Show won
+
+function isWon(matrix) {
+    const winArray = new Array(16).fill(0).map((_, i) => i + 1);
+    const flatMatrix = matrix.flat();
+    for (let i = 0; i < winArray.length; i++) {
+        if (flatMatrix[i] !== winArray[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function addWonClass() {
+    setTimeout(() => {
+        container.classList.add('fifteenWon');
+
+        setTimeout(() => {
+        container.classList.remove('fifteenWon');
+        }, 1000);
+
+    }, 200);
+}
